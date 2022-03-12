@@ -1,0 +1,50 @@
+<h2 class="titleProject"> Giftcard </h2>
+	<div   *ngIf="giftcards.length == 0">
+				<img class="loading" src="https://i.pinimg.com/originals/7e/2a/eb/7e2aeb1567e91bfc2404cecca6aceecd.gif">
+		
+	</div>
+
+
+
+	<table class= " table table-bordered" >
+
+		<tr  valign="top" *ngFor="let giftcard of giftcards" class="rialGiftcard">
+			
+					<a class="links" [routerLink]="['/giftcard',giftcard._id]">
+			   			 <img src="https://www.america-retail.com/static//2021/12/giftcard.png" class="imageGc"/></a><!--con 
+			    	el ngiF , significal que la uliza si esta listada--->
+				<h4 id="tGc"><b>{{giftcard.amount}}</b></h4>
+				<p id="tGc">Cliente:&nbsp;{{giftcard.client}}</p>
+				<p id="tGc">Id de pago:&nbsp; {{giftcard.payment_id}}</p>
+				<p id="tGc">Fecha de compra: &nbsp; Dated{{giftcard.issuedDate}}</p>
+				<p id="tGc">Fecha de Fecha de consumo:&nbsp;{{giftcard.consumedDate}}</p>
+     		  
+		 </tr>	
+	
+
+
+
+
+
+
+<!-- <div class="container">
+	
+	
+
+	
+		  	<div valign="top" *ngFor="let giftcard of giftcards" class="col-3" class="view overlay zoom" >
+			
+					<a  id="linkGc" class="links" [routerLink]="['/giftcard',giftcard._id]">
+					
+				
+				<h4 id="tGc"><b>{{giftcard.amount}}</b></h4>
+				<p id="tGc">Client:{{giftcard.client}}</p>
+				<p id="tGc">Payment_ Id: {{giftcard.payment_id}}</p>
+				<p id="tGc">Isued Dated{{giftcard.issuedDate}}</p>
+				<p id="tGc">Fecha de compra{{giftcard.consumedDate}}</p>
+     		   	</a>
+			
+     		   
+		 	
+	<div>
+	-->

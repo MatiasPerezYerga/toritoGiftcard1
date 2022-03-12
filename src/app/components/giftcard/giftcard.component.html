@@ -1,0 +1,36 @@
+<div class="container" *ngIf="giftcard">
+<div class= "image">
+  <img src="" *ngIf=""/><!--con el ngiF , significal que la tuliza si esta listada--->
+  <div class="gC">
+<h1>Monto:{{giftcard.amount}}</h1>
+<h3>Status:{{giftcard.status}}</h3>
+<p>Comprador:{{giftcard.buyerName}}</p>
+<p>Fecha de compra{{giftcard.issuedDate}}</p>
+<p>Fecha consumida:{{giftcard.consumedDate}}</p>
+<p>Email comprador:{{giftcard.buyerEmail}}</p>
+<p>Método de pago:{{giftcard.payment_type}}</p>
+<p>Id de pago: {{ giftcard.payment_id}}</p>
+<p>Id orden de compra:{{giftcard.merchant_order_id }}</p>
+<p>Cliente:{{ giftcard.client }}</p>
+<p>Email cliente:{{ giftcard.emailClient}}</p>
+<p>DNI: {{giftcard.dni}}</p>
+<p>Teléfono:{{giftcard.phoneClient}}</p>
+<p>MongoDB Id: {{"id:["+giftcard._id+"]"}}</p>
+<p *ngIf="confirm==false">
+  <a [routerLink]="['/editar-giftcard',giftcard._id]" class="button-edit">Editar</a>
+  <a (click)="setConfirm(true)" class="button-delete">Borrar</a>
+
+</p>
+<p *ngIf="confirm==true">
+  <span class="confirm">¿Estás seguro de eliminar la giftcard?</span>
+  <a (click)="setConfirm(false)"class="button-edit">Cancelar </a>
+  
+  <a (click)="deleteGiftcard(giftcard._id)" class="button-delete">Eliminar</a>
+
+</p>  
+
+
+  </div>
+
+</div>
+</div>
