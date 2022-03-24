@@ -1,16 +1,23 @@
+
+
 <section class="main container" id="principal">
   
 
 
 <div class="row" >
 					
+<div class="alert alert-warning" role="alert" *ngIf="entendido==false">
 
-						<div class="col-12"  style="text-align: center;">
-						Completa los pasos y no interrumpas el proceso de compra. El navegador saldrá a Mercado Pago y luego volverá al sitio web para confirmar la compra. Se te notificará cuando puedas cerrar la ventana.
-						<br><br><br>
-						<br>
+
+		<p>1. Saldremos a Mercado Pago y regresaremos una vez confirmado el pago automaticamente.  <strong>No interrumpas el proceso de compra</strong>.</p>
+		
+		<p>2. Ingresa los datos datos faltantes y confirma</p>
+
+<button class="btn btn-warning" (click)="entendidoMet()">Ok</button>
+
+			</div>
+
 						
-						</div>
 
 						  <div class="col-sm-6" style="text-align: center;">
 		
@@ -19,7 +26,7 @@
 
 						  	<form  class="Formulario" #giftcardForm="ngForm" (ngSubmit)= "checkout(giftcardForm)" id="formMP">	
 											
-												
+												     <label >PASO 1</label><br><br>
 													<label for ="buyerName">Comprador / Nombre</label><br>
 													<input type="text" name="buyerName" #buyerName="ngModel"[(ngModel)]="giftcard.buyerName" required/> <br><!--[(ngModel)]="project.name" 2 ways data binding para modificar el atributo name del project-->
 													<!-- el # indica que es la identificacion para Angular-->
@@ -41,7 +48,10 @@
 												
 													
 													<br>
-													<input class="btn btn-primary" type="submit" value="Checkout!" [disabled]="!giftcardForm.form.valid"/> <!--boton de envio -->
+													<input class="btn btn-primary" type="submit" value="Checkout!" [disabled]="!giftcardForm.form.valid"/> 
+													<br>
+													<br>
+													<br>
 												
 
 											</form>
@@ -52,14 +62,15 @@
 						  <div class="col-sm-6" style="text-align: center;">
 
 
-						  	<form style="color:white" class="Formulario" #giftcardForm="ngForm" (ngSubmit)= "confirmarPago(giftcardForm)" >	
+						  	<form style="color:white" class="Formulario" #giftcardForm2="ngForm" (ngSubmit)= "confirmarPago(giftcardForm2);giftcardForm2.resetForm()" >	
 
-
-					<label for ="buyerEmail">Email comprador</label><br>
+    			 <label >PASO 2</label><br>
+    			 <br>
+				<label for ="buyerEmail">Email comprador</label><br>
 				<input type="text" name="buyerEmail" #buyerEmail="ngModel"[(ngModel)]="giftcard.buyerEmail" required/><br>
 				<span class="form_error" *ngIf="buyerEmail.touched && !buyerEmail.valid">El cliente / agasajado es obligatorio</span><br>
 											
-												<label for ="payment_id">Ticket</label><br>
+				<label for ="payment_id">Ticket</label><br>
 				<input type="number" name="payment_id" #payment_id="ngModel"[(ngModel)]="giftcard.payment_id"/><br>
 				<span class="form_error" *ngIf="payment_id.touched && !payment_id.valid">El pago es obligatorio.</span><br>
 
@@ -69,9 +80,20 @@
 				<span class="form_error" *ngIf="payment_type.touched && !payment_type.valid">El método de pago es obligatorio.</span><br>
 
 				<label for ="status">Status del pago</label><br>
-				<input type="text" name="status" #status="ngModel"[(ngModel)]="giftcard.status">{{giftcard.status}}<br>
-				<span class="form_error disabled" *ngIf="!status.touched && !status.valid">El pago está pendiente</span>
+				<label type="text" name="status" #status="ngModel"[(ngModel)]="giftcard.status"><br>{{giftcard.status}}</label>
+				<br>
+				<br>
+				<span class="alert alert-success" role="alert" *ngIf="giftcard.status==='approved'">payment check!</span>
+				<span class="alert alert-warning"  role="alert"  *ngIf="giftcard.status===''">  waiting payment!</span>
+
+				<span class="alert alert-danger" role="alert"  *ngIf="giftcard.status==='denied'">  payment failed!</span>
+
+
 				
+				
+				<br>
+				<br>
+				<br>
 				<!--
 				<label for ="consumedDate">consumedDate </label>
 				<input type="text" name="consumedDate" #consumedDate="ngModel"[(ngModel)]="giftcard.consumedDate" required/><br>
@@ -91,10 +113,12 @@
 
 
 				<label for ="dni">Dni</label><br>
-				<input type="number" name="dni" #dni="ngModel"[(ngModel)]="giftcard.dni"/><br>
+				<input type="number" name="dni" #dni="ngModel" [(ngModel)]="giftcard.dni" required min="1000000" /><br>
+				<span class="form_error" *ngIf="dni.touched && !dni.valid">El dni del cliente / agasajado está incompleto o no es válido</span><br>
 				
 				<label for ="phoneClient"> Teléfono de contacto</label><br>
-				<input type="number" name="phoneClient" #phoneClient="ngModel"[(ngModel)]="giftcard.phoneClient"/><br>
+				<input type="number" name="phoneClient" #phoneClient="ngModel" [(ngModel)]="giftcard.phoneClient" required  min="1000000000"/><br>
+				<span class="form_error" *ngIf="phoneClient.touched && !phoneClient.valid">El teléfono del cliente / agasajado está incompleto o no es válido</span><br>
 
 
 
@@ -107,8 +131,11 @@
 <p>
 	
 	<br>
-	<input class= "btn btn-success"type="submit" value="Enviar" [disabled]="!giftcardForm.form.valid"/> <!--boton de envio -->
+	<input class= "btn btn-success"type="submit" value="Confirmar!" [disabled]="!giftcardForm2.form.valid"/> <!--boton de envio -->
 </p>
+
+<div class="alert alert-success" role="alert" *ngIf="statuss =='success'">
+		Se ha confirmado la compra! Se enviarán notificaciones con los detalles.</div>
 
 <div class="invisible">
 													

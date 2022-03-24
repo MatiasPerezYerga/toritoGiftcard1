@@ -17,6 +17,7 @@ import { BuyGiftcardComponent } from './components/buy-giftcard/buy-giftcard.com
 import{GiftcardService} from './services/giftcard.service';
 import { ShowroomComponent } from './components/showroom/showroom.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +29,7 @@ import { ShowroomComponent } from './components/showroom/showroom.component';
     RegisterComponent,
     BuyGiftcardComponent,
     ShowroomComponent
+    
   ],
   imports: [
     BrowserModule,

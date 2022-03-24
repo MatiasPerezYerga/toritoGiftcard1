@@ -8,6 +8,7 @@ import{HttpClient, HttpHeaders} from '@angular/common/http';
 
 import {Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-buy-giftcard',
   templateUrl: './buy-giftcard.component.html',
@@ -17,30 +18,48 @@ export class BuyGiftcardComponent implements OnInit {
 
   public giftcard: Giftcard;
   public statuss: string;
+  public entendido: boolean;
   public save_project: any;
   public filesToUpload: Array<File>= new Array();
   public init_point: string;
-  
-  public urlTree: any;
+   public urlTree: any;
 
-  constructor(private _giftcardService: GiftcardService,  private http: HttpClient, private router: Router ) {
+
+  constructor(private _giftcardService: GiftcardService,  private http: HttpClient, private router: Router, ) {
+
+  
 
       this.giftcard=new Giftcard('','',0,'','','','','',0,0,0,'','',0);
       this.statuss= "";
       this.init_point="";
+      this.entendido=false;
 
       this.urlTree = this.router.parseUrl(this.router.url);
 
+        if(this.urlTree.queryParams['amount']){
+        this.giftcard.amount = this.urlTree.queryParams['amount'];
+        }else{
+           if(localStorage.getItem("amount")){
+
+             console.log(localStorage.getItem("amount"));
+
+            console.log(typeof(JSON.parse(localStorage.getItem("amount") || '{}')));
+              this.giftcard.amount = JSON.parse(localStorage.getItem("amount") || '{}');
+            }
+
+
+        }
+
         if(this.urlTree.queryParams['status']){
-        this.giftcard.payment_id = this.urlTree.queryParams['status']
+        this.giftcard.status = this.urlTree.queryParams['status'];
         }
 
         if(this.urlTree.queryParams['payment_id']){
-        this.giftcard.payment_type = this.urlTree.queryParams['payment_id'];
+        this.giftcard.payment_id = this.urlTree.queryParams['payment_id'];
         }
 
         if(this.urlTree.queryParams['payment_type']){
-        this.giftcard.payment_type = this.urlTree.queryParams['payment_type']
+        this.giftcard.payment_type = this.urlTree.queryParams['payment_type'];
         }
 
         if(this.urlTree.queryParams['merchant_order_id']){
@@ -91,19 +110,24 @@ export class BuyGiftcardComponent implements OnInit {
 
             }
 
-           if(localStorage.getItem("amount")){
+          
+   }
 
-             console.log(localStorage.getItem("amount"));
+   entendidoMet():void{
 
-            console.log(typeof(JSON.parse(localStorage.getItem("amount") || '{}')));
-              this.giftcard.amount = JSON.parse(localStorage.getItem("amount") || '{}');
-            }
+     this.entendido=true;
+
+  
    }
 
   ngOnInit(): void {
  get("https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js", () => {
       //library has been loaded...
     });
+
+ window.alert("Completa los pasos y no interrumpas el proceso de compra. El navegador saldrá a Mercado Pago y luego volverá al sitio web para confirmar la compra. Se te notificará cuando puedas cerrar la ventana.");
+
+
 
    
   }
@@ -131,8 +155,8 @@ export class BuyGiftcardComponent implements OnInit {
         
           
      //window.location.href = this.init_point;
-                this.statuss= 'success';
-
+                
+                form.reset();
                 
              
                         
@@ -152,12 +176,34 @@ console.log(this.giftcard);
 this._giftcardService.saveGiftcard(this.giftcard).subscribe(
    
         response =>{
-          
+       if(response){
+
+
+       this.statuss= 'success'; 
+     
+       localStorage.removeItem('buyerName');
+       localStorage.removeItem("issuedDate");
+       localStorage.removeItem("client");
+       localStorage.removeItem("emailClient");
+       localStorage.removeItem("buyerEmail");
+       localStorage.removeItem("dni");
+       localStorage.removeItem("phoneClient");
+       localStorage.removeItem("amount");
+        form.reset();
+         form.reset();
+          form.reset();
+
+
+
+
+
+       }   
        console.log(response);   
        console.log("Guardado la giftcard en la base de datos!");
       
-           this.statuss= 'success';
+           
 
+                  // 
             
          
                     
@@ -171,6 +217,8 @@ this._giftcardService.saveGiftcard(this.giftcard).subscribe(
 
 
 }
+
+
 
 
 }
